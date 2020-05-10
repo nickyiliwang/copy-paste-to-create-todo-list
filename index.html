@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Copy Paste to create a list of todo</title>
+  </head>
+  <body>
+    <h1>Copy Paste to create a list of todo</h1>
+    <input
+      id="editableDiv"
+      contenteditable="true"
+      placeholder="paste your list of todo here"
+    />
+
+    <div class="generate-list"></div>
+
+    <script>
+      const generateList = document.querySelector(".generate-list");
+
+      function handlePaste(e) {
+        let clipboardData, pastedData;
+        e.stopPropagation();
+        e.preventDefault();
+
+        clipboardData = e.clipboardData || window.clipboardData;
+        pastedData = clipboardData.getData("Text");
+        numberOfLineBreaks = (pastedData.match(/\n/g) || []).length;
+
+        const pasteSplitTodos = pastedData.split(`\n`);
+
+        pasteSplitTodos.forEach((todo) => {
+          const todoElement = document.createElement("p");
+          todoElement.textContent = todo;
+          generateList.appendChild(todoElement);
+        });
+      }
+
+      document
+        .getElementById("editableDiv")
+        .addEventListener("paste", handlePaste);
+    </script>
+  </body>
+</html>
